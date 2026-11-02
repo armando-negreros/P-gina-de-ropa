@@ -1,0 +1,10 @@
+import React from 'react';
+import Welcome from './Welcome.jsx';
+const garmentPhotos = {
+  shirt: {src:'/images/shirt.jpg', alt:'Modelo con top blanco sin mangas y jeans de pierna ancha'},
+  bag: {src:'/images/bag.jpg', alt:'Bolso trenzado color caramelo con cadena dorada'},
+  sweater: {src:'/images/sweater.jpg', alt:'Modelo con suéter de punto verde oliva'}
+};
+function Garment({kind}) { const photo=garmentPhotos[kind] || garmentPhotos.shirt; return <img className="garment-photo" src={photo.src} alt={photo.alt} loading="lazy" decoding="async" width="900" height="1200"/>; }
+
+export default function Store({user,products,error,notice,setNotice}) {return <main className="store-view"><Welcome username={user.username}/><div className="welcome store-content"><section id="collection"><div className="section-title"><div><span className="eyebrow">TUS PRÓXIMOS FAVORITOS</span><h2>El arte de vestir simple.</h2></div><span>01 — 03 / SELECCIÓN ATELIER</span></div><p className="demo">Colección ilustrativa · precios de demostración en quetzales.</p><div className="products">{products.map(p=><article key={p.name}><div className={'product-image '+p.kind}><span>{p.category}</span><Garment kind={p.kind}/><button onClick={()=>setNotice(`${p.name}: ${p.color}. Precio ilustrativo Q${p.price}. Esta demostración no procesa compras.`)} aria-label={'Ver detalles de '+p.name}>↗</button></div><div className="product-title"><h3>{p.name}</h3><span>Q{p.price}</span></div><p>{p.color}</p></article>)}</div>{notice&&<div className="notice" role="status">{notice}<button onClick={()=>setNotice('')} aria-label="Cerrar detalle">×</button></div>}{error&&<p className="error" role="alert">{error}</p>}</section><section id="story" className="story"><span>LA ESENCIA ATELIER</span><h2>Menos prendas.<br/>Más posibilidades.</h2><p>Un concepto de tienda que celebra las líneas simples, los tonos naturales y la libertad de crear un estilo propio.</p></section><footer>ATELIER — ESTUDIO DE MODA<span>© 2026 · Proyecto de demostración</span></footer></div></main>;}
